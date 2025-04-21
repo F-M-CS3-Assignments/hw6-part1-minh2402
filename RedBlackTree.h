@@ -1,3 +1,6 @@
+// Author: Minh Pham
+// Date: 04/20/2025
+
 #ifndef REDBLACKTREE_H
 #define REDBLACKTREE_H
 
@@ -9,6 +12,7 @@
 #include <string>
 using namespace std;
 
+// Struct representing a node in the red-black tree
 struct RBTNode {
 	int data;
 	unsigned short int color;
@@ -17,7 +21,7 @@ struct RBTNode {
 	RBTNode *parent;
 	bool IsNullNode;
 
-	// Custom constructor
+	// Constructor used to ensure correct initialization
 	RBTNode(int d, unsigned short int c) {
 		data = d;
 		color = c;
@@ -31,40 +35,49 @@ struct RBTNode {
 class RedBlackTree {
 	
 	public:
-		RedBlackTree();
-		RedBlackTree(int newData);
-		RedBlackTree(const RedBlackTree &rbt);
+		RedBlackTree(); // Default constructor
+		RedBlackTree(int newData); // Constructor to create a one-node tree
+		RedBlackTree(const RedBlackTree &rbt); // Deep copy constructor
 
-		string ToInfixString() const {return ToInfixString(root);};
-		string ToPrefixString() const { return ToPrefixString(root);};
-		string ToPostfixString() const { return ToPostfixString(root);};
+		// Traversal string methods used to verify tree structure in tests
+		string ToInfixString() const { return ToInfixString(root); };
+		string ToPrefixString() const { return ToPrefixString(root); };
+		string ToPostfixString() const { return ToPostfixString(root); };
 
-		void Insert(int newData);
-		bool Contains(int data) const;
-		size_t Size() const {return numItems;};
-		int GetMin() const;
-		int GetMax() const;
+		// Core public API
+		void Insert(int newData); // Insert while preserving RBT properties
+		bool Contains(int data) const; // Returns true if data is in the tree
+		size_t Size() const { return numItems; }; // Total # of nodes
+		int GetMin() const; // Minimum value in tree
+		int GetMax() const; // Maximum value in tree
 
 	private: 
 		unsigned long long int numItems = 0;
 		RBTNode *root = nullptr;
-		
+
+		// Recursive helper traversal functions
 		static string ToInfixString(const RBTNode *n);
 		static string ToPrefixString(const RBTNode *n);
 		static string ToPostfixString(const RBTNode *n);
 		static string GetColorString(const RBTNode *n);
 		static string GetNodeString(const RBTNode *n);
 
-		void BasicInsert(RBTNode *node);
-		void InsertFixUp(RBTNode *node);
+		// Helpers for insertion
+		void BasicInsert(RBTNode *node); // Simple BST insert
+		void InsertFixUp(RBTNode *node); // RBT rule fix (rotations, recolors)
 
+		// Utilities for RBT property maintenance
 		RBTNode *GetUncle(RBTNode *node) const;
 		bool IsLeftChild(RBTNode *node) const;
 		bool IsRightChild(RBTNode *node) const;
 
-		void LeftRotate(RBTNode *node);
-		void RightRotate(RBTNode *node);
+		void LeftRotate(RBTNode *node);  // Rotate node left
+		void RightRotate(RBTNode *node); // Rotate node right
+
+		// Deep copy helper
 		RBTNode *CopyOf(const RBTNode *node);
+
+		// Search helper
 		RBTNode *Get(int data) const;
 };
 
